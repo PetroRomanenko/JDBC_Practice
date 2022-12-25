@@ -1,27 +1,42 @@
 package com.ferros;
 
+import com.ferros.utils.JdbcUtils;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    private static final String URL ="jdbc:postgresql://127.0.0.1:5432/jdbc_crud";
-    private static final String USERNAME ="postgres";
-    private static final String PASSWORD ="dr005764";
+
 
 
     public static void main(String[] args) throws SQLException {
-
-
-//  }
-//}MainView mainView = new MainView();
-//
-//        mainView.showMainMenu();
+        Integer labelId = 11;
+    var result = getLabelsById(labelId);
+        System.out.println(result);
 
 
 
 
 
+    }
 
-
+    private static List<Integer> getLabelsById(Integer labelId) throws SQLException {
+        String sql = """
+                SELECT id 
+                FROM label
+                WHERE id = ?
+                """;
+        List<Integer> result = new ArrayList<>();
+        try (var connection = JdbcUtils.getConnection();
+             var preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1,labelId);
+            var resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                result.add(resultSet.getObject("id", Integer.class));
+            }
+        }
+        return result;
 
     }
 }
