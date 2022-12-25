@@ -2,15 +2,14 @@ package com.ferros.controller;
 
 import com.ferros.model.Label;
 import com.ferros.repository.LabelRepository;
-import com.ferros.repository.database.SqlLabelRepositoryImpl;
-import com.ferros.repository.gson.JsonLabelRepositoryImpl;
+import com.ferros.repository.jdbc.JdbcLabelRepositoryImpl;
 
 import java.util.List;
 
 public class LabelController {
    private final LabelRepository labelRepository;
     public LabelController() {
-         labelRepository = new SqlLabelRepositoryImpl();
+         labelRepository = new JdbcLabelRepositoryImpl();
     }
 
     public LabelController(LabelRepository labelRepository) {

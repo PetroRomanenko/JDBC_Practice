@@ -3,7 +3,7 @@ import com.ferros.model.Post;
 import com.ferros.model.PostStatus;
 import com.ferros.model.Writer;
 import com.ferros.repository.WriterRepository;
-import com.ferros.repository.database.SqlWriterRepositoryImpl;
+import com.ferros.repository.jdbc.JdbcWriterRepositoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -24,7 +24,7 @@ public class WriterControllerTest {
     List<Post> davidPosts;
     List<Post> patricPosts;
     @Mock
-    WriterRepository writerRepository;
+    WriterRepository writerRepository = Mockito.mock(JdbcWriterRepositoryImpl.class);
 
     @Before
     public void setUp(){
@@ -37,7 +37,7 @@ public class WriterControllerTest {
     }
     @Test
     public void findWriterByIdWereNoSuchId(){
-        WriterRepository writerRepository = Mockito.mock(SqlWriterRepositoryImpl.class);
+        WriterRepository writerRepository = Mockito.mock(JdbcWriterRepositoryImpl.class);
 
 
         when(writerRepository.getById(-1)).thenReturn(null);
@@ -46,9 +46,6 @@ public class WriterControllerTest {
 
     @Test
     public void findWriterByyId(){
-        WriterRepository writerRepository = Mockito.mock(SqlWriterRepositoryImpl.class);
-
-
         when(writerRepository.getById(1)).thenReturn(writerDavid);
         assertEquals(writerDavidCopy, wc.findWriterById(1));
     }

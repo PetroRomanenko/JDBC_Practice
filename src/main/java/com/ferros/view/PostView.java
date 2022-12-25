@@ -3,6 +3,7 @@ package com.ferros.view;
 import com.ferros.controller.PostController;
 import com.ferros.model.Post;
 import com.ferros.model.PostStatus;
+import com.ferros.model.Writer;
 
 import java.util.Scanner;
 
@@ -106,4 +107,9 @@ public class PostView {
 
 
     }
+
+    private void showPrettyPost(Post post) {
+        System.out.println("");
+    }
+
 }

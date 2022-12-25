@@ -112,23 +112,13 @@ public class Post {
 
     @Override
     public String toString() {
-        String updatedString="";
-        String createdString="";
-        if (created!=null) {
-            createdString+=", created=" +new Date(created);
-        }
-        if (updated!=null) {
-            updatedString+=", updated=" +new Date(updated);
-        }
-
         return "Post{" +
                 "id=" + id +
                 ", content='" + content + '\'' +
-                createdString +
-                 updatedString +
+                ", created=" + created +
+                ", updated=" + updated +
                 ", status=" + status +
                 ", labels=" + labels +
                 '}';
-
     }
 }

@@ -1,11 +1,7 @@
 import com.ferros.model.Label;
-import com.ferros.repository.database.SqlLabelRepositoryImpl;
-import liquibase.sql.Sql;
-import org.junit.Before;
+import com.ferros.repository.jdbc.JdbcLabelRepositoryImpl;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.junit.jupiter.api.Assertions.*;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -16,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 public class LabelTest {
     @Mock
 
-    SqlLabelRepositoryImpl sqlLabelRepositoryMock =Mockito.mock(SqlLabelRepositoryImpl.class);
+    JdbcLabelRepositoryImpl sqlLabelRepositoryMock =Mockito.mock(JdbcLabelRepositoryImpl.class);
 
 //    @Before
 //    void setUp(){

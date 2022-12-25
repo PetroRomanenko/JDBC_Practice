@@ -1,14 +1,12 @@
 import com.ferros.controller.LabelController;
 import com.ferros.model.Label;
-import com.ferros.repository.database.SqlLabelRepositoryImpl;
-import org.junit.Before;
+import com.ferros.repository.jdbc.JdbcLabelRepositoryImpl;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,58 +16,52 @@ import static org.mockito.Mockito.*;
 public class LabelControllerTest {
 
     @Mock
-    SqlLabelRepositoryImpl sqlLabelRepository = Mockito.mock(SqlLabelRepositoryImpl.class);
+    JdbcLabelRepositoryImpl sqlLabelRepository = Mockito.mock(JdbcLabelRepositoryImpl.class);
 
-    @Before
-    public void setUp(){
-        LabelController lc = new LabelController(sqlLabelRepository);
-    }
+    @InjectMocks
+    LabelController controllerUnderTest = new LabelController(sqlLabelRepository);
+
     @Test
     @Ignore
     public void saveLabelNullTest(){
-        LabelController lc = new LabelController(sqlLabelRepository);
+
         Label label = new Label(null, "First");
         Label label1 = new Label(1, "First");
         when(sqlLabelRepository.save(label)).thenReturn(label1);
-        assertEquals(null,lc.saveLabel(label.getName()));
+        assertEquals(null,controllerUnderTest.saveLabel(label.getName()));
     }
     @Test
     public void saveLabelTest(){
-        LabelController lc = new LabelController(sqlLabelRepository);
         Label label = new Label(1, "First");
         Label label1 = new Label(1, "First");
         when(sqlLabelRepository.save(label)).thenReturn(label);
-        assertEquals(label1,lc.saveLabel(label.getName()));
+        assertEquals(label1,controllerUnderTest.saveLabel(label.getName()));
     }
 
     @Test
     public void findLabelByIdTest(){
-        LabelController lc = new LabelController(sqlLabelRepository);
         Label label = new Label(1, "First");
         Label label1 = new Label(1, "First");
         when(sqlLabelRepository.getById(label1.getId())).thenReturn(label1);
-        assertEquals(label,lc.findLabelById(1) );
+        assertEquals(label,controllerUnderTest.findLabelById(1) );
     }
     @Test
     public void findLabelByIdTestNullResult(){
-        LabelController lc = new LabelController(sqlLabelRepository);
         Label label = new Label(1, "First");
         Label label1 = new Label(1, "First");
         when(sqlLabelRepository.getById(label1.getId())).thenReturn(null);
-        assertNull(lc.findLabelById(1));
+        assertNull(controllerUnderTest.findLabelById(1));
     }
     @Test
     public void findLabelByIdTestFail(){
-        LabelController lc = new LabelController(sqlLabelRepository);
         Label label = new Label(1, "First");
         Label label1 = new Label(2, "Second");
         when(sqlLabelRepository.getById(label1.getId())).thenReturn(label1);
-        assertNotEquals(label,lc.findLabelById(1) );
+        assertNotEquals(label,controllerUnderTest.findLabelById(1) );
     }
 
     @Test
     public void getAllLabelsTest(){
-        LabelController lc = new LabelController(sqlLabelRepository);
         List<Label> labelList = Arrays.asList( new Label(1, "First"),
                                               new Label(2, "Second"),
                                               new Label(3, "Third"));
@@ -77,11 +69,10 @@ public class LabelControllerTest {
                 new Label(2, "Second"),
                 new Label(3, "Third"));
         when(sqlLabelRepository.getAll()).thenReturn(labelList);
-        assertEquals(labelList2,lc.getAllLabels());
+        assertEquals(labelList2,controllerUnderTest.getAllLabels());
 
     }  @Test
     public void getAllLabelsTestNotEqual(){
-        LabelController lc = new LabelController(sqlLabelRepository);
         List<Label> labelList = Arrays.asList( new Label(1, "First"),
                                               new Label(2, "Second"),
                                               new Label(3, "Third"));
@@ -90,20 +81,18 @@ public class LabelControllerTest {
                 new Label(3, "Third"),
                 new Label(4, "Forth"));
         when(sqlLabelRepository.getAll()).thenReturn(labelList);
-        assertNotEquals(labelList2,lc.getAllLabels());
+        assertNotEquals(labelList2,controllerUnderTest.getAllLabels());
 
     }
     @Test
     public void getAllLabelsTestEmptyData() {
-        LabelController lc = new LabelController(sqlLabelRepository);
         List<Label> labelList2 = null;
         when(sqlLabelRepository.getAll()).thenReturn(labelList2);
-        assertNull(lc.getAllLabels());
+        assertNull(controllerUnderTest.getAllLabels());
     }
 
     @Test
     public void updateLabelsTest(){
-        LabelController lc = new LabelController(sqlLabelRepository);
         Label label = new Label(4, "Forth");
         Label label2 = new Label(4, "Forth");
         when(sqlLabelRepository.update(label)).thenReturn(label);

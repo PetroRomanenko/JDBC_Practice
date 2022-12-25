@@ -7,7 +7,7 @@ public class Writer {
     private Integer id;
     private String firstName;
     private String lastName;
-    List<Post> posts;
+    private List<Post> posts;
 
     public Writer() {
     }

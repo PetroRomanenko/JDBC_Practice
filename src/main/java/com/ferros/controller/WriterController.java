@@ -3,13 +3,13 @@ package com.ferros.controller;
 import com.ferros.model.Post;
 import com.ferros.model.Writer;
 import com.ferros.repository.WriterRepository;
-import com.ferros.repository.database.SqlWriterRepositoryImpl;
-import com.ferros.repository.gson.JsonWriterRepositoryImpl;
+import com.ferros.repository.jdbc.JdbcWriterRepositoryImpl;
 
 import java.util.List;
 
 public class WriterController {
-    private final WriterRepository writerRepository = new SqlWriterRepositoryImpl();
+    //TODO: error is here
+    private final WriterRepository writerRepository = new JdbcWriterRepositoryImpl();
     public Writer saveWriter(String firstName, String lastName, List<Post> postList){
         Writer writer = new Writer(null, firstName,lastName, postList);
         return writerRepository.save(writer);

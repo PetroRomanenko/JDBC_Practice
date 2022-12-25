@@ -1,14 +1,10 @@
-import com.ferros.controller.LabelController;
 import com.ferros.controller.PostController;
 import com.ferros.model.Label;
 import com.ferros.model.Post;
 import com.ferros.model.PostStatus;
-import com.ferros.repository.PostRepository;
-import com.ferros.repository.database.SqlPostRepositoryImpl;
+import com.ferros.repository.jdbc.JdbcPostRepositoryImpl;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -22,13 +18,13 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class PostControllerTest {
-    private  PostController pc ;
-//    private Post post1;
+    private PostController pc;
+    //    private Post post1;
     private Post postSame;
     private Post postNew;
     private List<Label> labelList;
-            @Mock
-    SqlPostRepositoryImpl sqlPostRepository = Mockito.mock(SqlPostRepositoryImpl.class);
+    @Mock
+    JdbcPostRepositoryImpl sqlPostRepository = Mockito.mock(JdbcPostRepositoryImpl.class);
 
     @Before
 //    public void setUp() {
@@ -41,61 +37,63 @@ public class PostControllerTest {
 //         }
 
 
-
     @Test
 
     public void getAllLabelsInPostTestPost() {
-        SqlPostRepositoryImpl postRepository = mock(SqlPostRepositoryImpl.class);
+        JdbcPostRepositoryImpl postRepository = mock(JdbcPostRepositoryImpl.class);
         PostController pc = new PostController(sqlPostRepository);
         List<Label> labelList = new ArrayList<>();
-        labelList.add(new Label(1,"First"));
-        labelList.add(new Label(2,"Second"));
-        labelList.add(new Label(3,"Third"));
-        Post post1 = new Post(1,"My First Post", new Date().getTime() , PostStatus.ACTIVE, labelList);
-        List<Label> labelList1 = Arrays.asList(new Label(1,"First"),
-                new Label(2,"Second"),
-                new Label(3,"Third"));
+        labelList.add(new Label(1, "First"));
+        labelList.add(new Label(2, "Second"));
+        labelList.add(new Label(3, "Third"));
+        Post post1 = new Post(1, "My First Post", new Date().getTime(), PostStatus.ACTIVE, labelList);
+        List<Label> labelList1 = Arrays.asList(new Label(1, "First"),
+                new Label(2, "Second"),
+                new Label(3, "Third"));
 
         when(postRepository.getAllLabelsInPost(post1)).thenReturn(labelList);
 
-        assertEquals(labelList1,pc.getAllLabelsInThisPost(post1,postRepository));
+        assertEquals(labelList1, pc.getAllLabelsInThisPost(post1, postRepository));
     }
+
     @Test
-    public void getAllLabelsInPostTestNullPost(){
-        SqlPostRepositoryImpl postRepository = mock(SqlPostRepositoryImpl.class);
+    public void getAllLabelsInPostTestNullPost() {
+        JdbcPostRepositoryImpl postRepository = mock(JdbcPostRepositoryImpl.class);
         PostController pc = new PostController(sqlPostRepository);
         List<Label> labelList = null;
-        Post post1 = new Post(1,"My First Post", new Date().getTime() , PostStatus.ACTIVE, null);
-        List<Label> labelList1 = Arrays.asList(new Label(1,"First"),
-                new Label(2,"Second"),
-                new Label(3,"Third"));
+        Post post1 = new Post(1, "My First Post", new Date().getTime(), PostStatus.ACTIVE, null);
+        List<Label> labelList1 = Arrays.asList(new Label(1, "First"),
+                new Label(2, "Second"),
+                new Label(3, "Third"));
 
         when(postRepository.getAllLabelsInPost(post1)).thenReturn(labelList);
 
         assertNull(pc.getAllLabelsInThisPost(post1, postRepository));
 
     }
+
     @Test
 
-    public void savePostNullTest(){
+    public void savePostNullTest() {
         PostController pc = new PostController(sqlPostRepository);
-        Post post1 = new Post(1,"My First Post", new Date().getTime() , PostStatus.ACTIVE, labelList);
-        List<Label> labelList1 = Arrays.asList(new Label(1,"First"),
-                new Label(2,"Second"),
-                new Label(3,"Third"));
+        Post post1 = new Post(1, "My First Post", new Date().getTime(), PostStatus.ACTIVE, labelList);
+        List<Label> labelList1 = Arrays.asList(new Label(1, "First"),
+                new Label(2, "Second"),
+                new Label(3, "Third"));
         when(sqlPostRepository.save(post1)).thenReturn(post1);
-        assertEquals(null,pc.savePost(post1.getContent()));
+        assertEquals(null, pc.savePost(post1.getContent()));
     }
+
     @Test
-    public void saveLabelTest(){
+    public void saveLabelTest() {
         PostController pc = new PostController(sqlPostRepository);
-        Post post1 = new Post(1,"My First Post" ,new Date().getTime() , PostStatus.ACTIVE, labelList);
-        List<Label> labelList1 = Arrays.asList(new Label(1,"First"),
-                new Label(2,"Second"),
-                new Label(3,"Third"));
+        Post post1 = new Post(1, "My First Post", new Date().getTime(), PostStatus.ACTIVE, labelList);
+        List<Label> labelList1 = Arrays.asList(new Label(1, "First"),
+                new Label(2, "Second"),
+                new Label(3, "Third"));
         post1.setLabels(labelList1);
-        when(sqlPostRepository.save(post1)).thenReturn(post1);
-        assertEquals(post1,pc.savePost(post1.getContent()));
+        when(sqlPostRepository.save(any())).thenReturn(post1);
+        assertEquals(post1, pc.savePost(post1.getContent()));
     }
 //
 //    @Test

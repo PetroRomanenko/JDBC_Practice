@@ -21,40 +21,38 @@ public class WriterView {
             "6.Exit to previous menu";
     private final String line = "****************************************";
 
-    public void createWriter(){
+    public void createWriter() {
         scanner.nextLine();
         System.out.println("Enter writer First Name: ");
         String firstName = scanner.nextLine();
 
-          System.out.println("Enter writer Last Name: ");
+        System.out.println("Enter writer Last Name: ");
         String lastName = scanner.nextLine();
         //Add List<Post>!!!!!
         List<Post> posts = new ArrayList<>();
-        Writer cratedWriter = controller.saveWriter(firstName,lastName, posts);
+        Writer cratedWriter = controller.saveWriter(firstName, lastName, posts);
 
     }
 
-    public void findWriterById(){
+    public void findWriterById() {
 
         System.out.println("Enter ID of desired Writer: ");
         Integer lookedId = scanner.nextInt();
         scanner.skip("\n");
 
 
-
-
         Writer foundWriter = controller.findWriterById(lookedId);
         System.out.println("Desired Writer: " + foundWriter);
     }
 
-    public void showAllWriter(){
+    public void showAllWriter() {
         System.out.println("All Writers: ");
         controller.printWriterList(controller.getAllWriters());
     }
 
-    public void updateWriter(){
+    public void updateWriter() {
         System.out.println("Enter Writer id: ");
-        Integer updatedWriterId=scanner.nextInt();
+        Integer updatedWriterId = scanner.nextInt();
         System.out.println("Hi3");
         scanner.skip("\n");
 
@@ -66,11 +64,11 @@ public class WriterView {
         //Add Post List
         List<Post> posts = new ArrayList<>();
 
-        Writer updatedWriter = new Writer(updatedWriterId,updatedFirstName,updatedLastName, posts);
+        Writer updatedWriter = new Writer(updatedWriterId, updatedFirstName, updatedLastName, posts);
         controller.update(updatedWriter);
     }
 
-    public void deleteWriterById(){
+    public void deleteWriterById() {
 //        System.out.println("Enter Writer Id: ");
 //        Integer deletedWriterID = scanner.nextInt();
 //        scanner.skip("\n");
@@ -87,9 +85,10 @@ public class WriterView {
         System.out.println(CRUDMassage);
         System.out.println(line);
     }
+
     public void menuChoice() {
         int chose;
-        do{
+        do {
             showMenuMassage();
             chose = scanner.nextInt();
             switch (chose) {
@@ -112,7 +111,12 @@ public class WriterView {
 
             }
         } while (chose != 6);
-        }
-
     }
+
+
+    private void showPrettyWriter(Writer writer) {
+        System.out.println("");
+    }
+
+}
 

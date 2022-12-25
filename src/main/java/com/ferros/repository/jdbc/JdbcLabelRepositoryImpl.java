@@ -1,14 +1,15 @@
-package com.ferros.repository.database;
+package com.ferros.repository.jdbc;
 
 import com.ferros.model.Label;
 import com.ferros.repository.LabelRepository;
+import com.ferros.utils.JdbcUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SqlLabelRepositoryImpl implements LabelRepository {
-    DBConnection dbConnection = new DBConnection();
+public class JdbcLabelRepositoryImpl implements LabelRepository {
+    JdbcUtils jdbcUtils = new JdbcUtils();
     Connection connection = null;
     @Override
     public Label getById(Integer integer) {
@@ -17,7 +18,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
         int id;
         String stringLabel;
         try {
-            connection = dbConnection.getConnection();
+            connection = jdbcUtils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,integer);
             ResultSet resultSet=preparedStatement.executeQuery();
@@ -34,7 +35,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
             System.out.println("Unable to create statement get by id");
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
 
         return null;
@@ -45,7 +46,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
         Integer id;
         String stringLabel;
         try {
-            connection = dbConnection.getConnection();
+            connection = jdbcUtils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, labelName);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -62,7 +63,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
             System.out.println("Unable to create statement get by label");
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
 
         return null;
@@ -71,7 +72,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
         @Override
     public List<Label> getAll() {
         String sql ="SELECT * FROM label;";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
         Label label;
         List<Label> labelList= new ArrayList<>();
         try {
@@ -87,7 +88,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
             System.out.println("Problem with connections");
             e.printStackTrace();
         }finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
 
 
@@ -97,7 +98,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
     @Override
     public Label save(Label label) {
         String sql ="INSERT INTO label (label) VALUES (?);";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, label.getName());
@@ -112,7 +113,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
             System.out.println("Unable create statement");
             e.printStackTrace();
         }finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
 
         return null;
@@ -121,7 +122,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
     @Override
     public Label update(Label label) {
         String sql = "UPDATE label SET label =? WHERE id=?;";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,label.getName());
@@ -142,7 +143,7 @@ public class SqlLabelRepositoryImpl implements LabelRepository {
     @Override
     public void deleteById(Integer integer) {
         String sql ="DELETE FROM label WHERE id=?;";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, integer);

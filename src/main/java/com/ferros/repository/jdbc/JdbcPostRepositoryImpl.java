@@ -1,24 +1,24 @@
-package com.ferros.repository.database;
+package com.ferros.repository.jdbc;
 
 import com.ferros.model.Label;
 import com.ferros.model.Post;
 import com.ferros.model.PostStatus;
 import com.ferros.repository.PostRepository;
-import com.google.gson.internal.LinkedTreeMap;
+import com.ferros.utils.JdbcUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SqlPostRepositoryImpl implements PostRepository {
-    DBConnection dbConnection = new DBConnection();
+public class JdbcPostRepositoryImpl implements PostRepository {
+    JdbcUtils jdbcUtils = new JdbcUtils();
     Connection connection = null;
 
     public Integer getNextIdForNewPost(){
         Integer id;
         String sql = "SELECT MAX(id) FROM post;";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
 
         try {
             Statement statement = connection.createStatement();
@@ -32,7 +32,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Problem with connections, in get all mathod");
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
 
         return null;
@@ -48,7 +48,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
          PostStatus status;
 
          try {
-             connection =dbConnection.getConnection();
+             connection = jdbcUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);
              preparedStatement.setInt(1, integer);
              ResultSet resultSet = preparedStatement.executeQuery();
@@ -65,7 +65,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
              System.out.println("Unable to create statement get by id");
              e.printStackTrace();
          } finally {
-             dbConnection.closeConnection();
+             jdbcUtils.closeConnection();
          }
         return null;
     }
@@ -73,7 +73,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
     @Override
     public List<Post> getAll() {
         String sql = "SELECT * FROM post;";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
         Post post;
         List<Post> postList = new ArrayList<>();
         try {
@@ -94,7 +94,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Problem with connections, in get all mathod");
             e.printStackTrace();
         } finally {
-        dbConnection.closeConnection();
+        jdbcUtils.closeConnection();
     }
         return null;
     }
@@ -103,7 +103,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
     public Post save(Post post) {
         String sql = "INSERT INTO post (content, created, post_status) " +
                 "VALUES (?,?,?);";
-        dbConnection.getConnection();
+        jdbcUtils.getConnection();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,post.getContent());
@@ -117,7 +117,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Unable create statement");
             e.printStackTrace();
         }finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
         Post savedPost = getPostByContent(post);
         return savedPost;
@@ -132,7 +132,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
         PostStatus status;
 
         try {
-            connection =dbConnection.getConnection();
+            connection = jdbcUtils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, post.getContent());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -150,7 +150,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Unable to create statement get by content");
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
         return null;
     }
@@ -158,7 +158,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
     @Override
     public Post update(Post post) {
         String sql = "UPDATE post SET content =?, update = ?, post_status = ? WHERE id = ? ;";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, post.getContent());
@@ -174,7 +174,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Unable to update post");
             e.printStackTrace();
         }finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
         return null;
     }
@@ -182,7 +182,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
     @Override
     public void deleteById(Integer integer) {
         String sql = "DELETE FROM post WHERE id = ?;";
-        connection = dbConnection.getConnection();
+        connection = jdbcUtils.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,integer);
@@ -195,7 +195,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Unable to delete post ");
             e.printStackTrace();
         }finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
     }
 
@@ -205,12 +205,12 @@ public class SqlPostRepositoryImpl implements PostRepository {
 
     public void saveLabelInPost(Post post, Label label){
         update(post);
-        SqlLabelRepositoryImpl repository =new SqlLabelRepositoryImpl();
+        JdbcLabelRepositoryImpl repository =new JdbcLabelRepositoryImpl();
         repository.save(label);
         String sql ="INSERT INTO label_post (post_id, label_id) \" +\n" +
                 "                \"VALUES (?,?);\"";
         try {
-            connection = dbConnection.getConnection();
+            connection = jdbcUtils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,post.getId());
             preparedStatement.setInt(2,label.getId());
@@ -219,7 +219,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Unable to create statement get by id");
             e.printStackTrace();
         }finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
     }
 
@@ -228,7 +228,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
                 "JOIN label_post ON label.id =label_post.label_id " +
                 "JOIN post ON post.id=label_post.post_id WHERE label.id=?; ";
         try{
-            connection = dbConnection.getConnection();
+            connection = jdbcUtils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1,post.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -243,7 +243,7 @@ public class SqlPostRepositoryImpl implements PostRepository {
             System.out.println("Unable to create statement get all labels in post");
             e.printStackTrace();
         } finally {
-            dbConnection.closeConnection();
+            jdbcUtils.closeConnection();
         }
     return null;
     }
