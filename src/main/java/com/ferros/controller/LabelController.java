@@ -19,7 +19,7 @@ public class LabelController {
 
 
     public Label saveLabel(String name) {
-        Label label = new Label(1, name);
+        Label label = new Label( name);
         return labelRepository.save(label);
     }
 

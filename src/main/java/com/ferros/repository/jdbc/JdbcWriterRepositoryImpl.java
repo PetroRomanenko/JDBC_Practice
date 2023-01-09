@@ -29,6 +29,8 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
 
         try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(sql)){
             preparedStatement.setInt(1, integer);
+            preparedStatement.setInt(2, integer);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
               return mapResultSetToWriter(resultSet);
@@ -52,16 +54,11 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
             ResultSet resultSet = preparedStatement.executeQuery(sql);
 
             while (resultSet.next()){
-                writer = new Writer(
-                        resultSet.getInt("id"),
-                        resultSet.getString("firstname"),
-                        resultSet.getString("lastname"),
-                        getAllPostsByThisWritersId(resultSet.getInt("id")));
-                writerList.add(writer);
+               writerList.add(mapResultSetToWriter(resultSet));
             }
             return writerList;
         }catch (SQLException e){
-            System.out.println("Problem with connections, in get all mathod");
+            System.out.println("Problem with connections, in get all method");
             e.printStackTrace();
         }
         return null;
@@ -97,8 +94,9 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
             int resultSet = preparedStatement.executeUpdate();
             if(resultSet>0){
                 System.out.println("Successfully updated post");
+                return writer;
             }
-            return writer;
+
 
         }catch (SQLException e){
             System.out.println("Unable to update post");
@@ -137,6 +135,7 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Post> postList = new ArrayList<>();
             while (resultSet.next()) {
+//                sqlPostRepository.
                 //TODO: Вставить медод мапинг обьекта пост
                 Post post = new Post(resultSet.getInt("id"),
                         resultSet.getString("content"),

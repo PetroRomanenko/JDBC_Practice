@@ -1,3 +1,5 @@
+package controller;
+
 import com.ferros.controller.LabelController;
 import com.ferros.model.Label;
 import com.ferros.repository.jdbc.JdbcLabelRepositoryImpl;
@@ -25,10 +27,10 @@ public class LabelControllerTest {
     @Ignore
     public void saveLabelNullTest(){
 
-        Label label = new Label(null, "First");
-        Label label1 = new Label(1, "First");
-        when(sqlLabelRepository.save(label)).thenReturn(label1);
-        assertEquals(null,controllerUnderTest.saveLabel(label.getName()));
+        Label label = null;
+        Label label1 = new Label(1,"First");
+        when(sqlLabelRepository.save(any())).thenReturn(label1);
+        assertEquals(label1,controllerUnderTest.saveLabel("First"));
     }
     @Test
     public void saveLabelTest(){

@@ -1,3 +1,5 @@
+package controller;
+
 import com.ferros.controller.WriterController;
 import com.ferros.model.Post;
 import com.ferros.model.PostStatus;

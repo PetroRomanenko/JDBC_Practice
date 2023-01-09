@@ -1,42 +1,20 @@
 package com.ferros;
 
 import com.ferros.utils.JdbcUtils;
+import com.ferros.view.MainView;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.SortedMap;
 
 public class Main {
 
 
-
     public static void main(String[] args) throws SQLException {
-        Integer labelId = 11;
-    var result = getLabelsById(labelId);
-        System.out.println(result);
-
-
-
-
-
-    }
-
-    private static List<Integer> getLabelsById(Integer labelId) throws SQLException {
-        String sql = """
-                SELECT id 
-                FROM label
-                WHERE id = ?
-                """;
-        List<Integer> result = new ArrayList<>();
-        try (var connection = JdbcUtils.getConnection();
-             var preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1,labelId);
-            var resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                result.add(resultSet.getObject("id", Integer.class));
-            }
-        }
-        return result;
-
+//        System.out.println(new Date(1673203795337L));
+        MainView mainView = new MainView();
+        mainView.showMainMenu();
     }
 }

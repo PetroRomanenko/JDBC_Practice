@@ -7,6 +7,7 @@ import com.ferros.repository.PostRepository;
 import com.ferros.utils.JdbcUtils;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,238 +15,219 @@ import java.util.List;
 public class JdbcPostRepositoryImpl implements PostRepository {
     JdbcUtils jdbcUtils = new JdbcUtils();
     Connection connection = null;
+    private static final String GET_ALL_SQL = """
+            SELECT id,
+                   content,
+                   created,
+                   updated,
+                   post_status 
+            FROM post
+            """;
+    private static final String GET_BY_ID_SQL = GET_ALL_SQL + """
+            WHERE ID = ?;
+            """;
+    private static final String SAVE_SQL = """
+            INSERT INTO post (content, created, post_status)  
+            VALUES (?,?,?)
+            """;
+    private static final String UPDATE_SQL = """
+                UPDATE post 
+                SET content = ?, 
+                    updated = ?, 
+                    post_status = ? 
+                WHERE id = ? ;
+            """;
 
-    public Integer getNextIdForNewPost(){
-        Integer id;
-        String sql = "SELECT MAX(id) FROM post;";
-        connection = jdbcUtils.getConnection();
+    private static final String DELETE_SQL = """
+            DELETE FROM post
+            WHERE id = ? ;
+            """;
 
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+    private static final String ADD_LABEL_INTO_POST_SQL = """
+            INSERT INTO label_post (post_id, label_id)
+            VALUES (? , ?) ;
+            """;
 
-            if (resultSet.next()){
-                id=resultSet.getInt("id");
-                return id+1;
-            }
-        }catch (SQLException e){
-            System.out.println("Problem with connections, in get all mathod");
-            e.printStackTrace();
-        } finally {
-            jdbcUtils.closeConnection();
-        }
+    private static final String GET_ALL_LABELS_IN_POST = """
+    SELECT * FROM label 
+                JOIN label_post ON label.id =label_post.label_id 
+                JOIN post ON post.id=label_post.post_id WHERE post.id=?;
+        """;
 
-        return null;
-    }
+
     @Override
     public Post getById(Integer integer) {
-        String sql = "select * from post WHERE id = ?;";
 
-         Integer id;
-         String content;
-         Long created;
-         Long updated;
-         PostStatus status;
-
-         try {
-             connection = jdbcUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             preparedStatement.setInt(1, integer);
-             ResultSet resultSet = preparedStatement.executeQuery();
-             if (resultSet.next()){
-                 id= resultSet.getInt("id");
-                 content = resultSet.getString("content");
-                 created = resultSet.getLong("created");
-                 updated = resultSet.getLong("updated");
-                 status=PostStatus.valueOf(resultSet.getString("post_status"));
-
-                return new Post(id,content,created,updated,status);
-             }
-         }catch (SQLException e){
-             System.out.println("Unable to create statement get by id");
-             e.printStackTrace();
-         } finally {
-             jdbcUtils.closeConnection();
-         }
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(GET_BY_ID_SQL)) {
+            preparedStatement.setInt(1, integer);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return mapResultSetToPost(resultSet);
+            }
+        } catch (SQLException e) {
+            System.out.println("Unable to create statement get by id");
+            e.printStackTrace();
+        }
         return null;
+    }
+
+    private static Post mapResultSetToPost(ResultSet resultSet) throws SQLException {
+        Integer id = resultSet.getInt("id");
+        String content = resultSet.getString("content");
+        Long created=null;
+        if (resultSet.getTimestamp("created")!=null) {
+             created = resultSet.getTimestamp("created").getTime();
+        }
+        Long updated=null;
+        if(resultSet.getTimestamp("updated")!=null) {
+             updated = resultSet.getTimestamp("updated").getTime();
+        }
+        PostStatus status = PostStatus.valueOf(resultSet.getString("post_status"));
+
+        return new Post(id, content, created, updated, status);
     }
 
     @Override
     public List<Post> getAll() {
-        String sql = "SELECT * FROM post;";
-        connection = jdbcUtils.getConnection();
-        Post post;
         List<Post> postList = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(GET_ALL_SQL)) {
 
-            while (resultSet.next()){
-                post = new Post(
-                     resultSet.getInt("id"),
-                     resultSet.getString("content"),
-                     resultSet.getLong("created"),
-                     resultSet.getLong("updated"),
-                     PostStatus.valueOf(resultSet.getString("post_status")));
-                postList.add(post);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                postList.add(mapResultSetToPost(resultSet));
             }
             return postList;
-        }catch (SQLException e){
-            System.out.println("Problem with connections, in get all mathod");
-            e.printStackTrace();
-        } finally {
-        jdbcUtils.closeConnection();
-    }
-        return null;
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public Post save(Post post) {
-        String sql = "INSERT INTO post (content, created, post_status) " +
-                "VALUES (?,?,?);";
-        jdbcUtils.getConnection();
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,post.getContent());
-            preparedStatement.setLong(2,getCurrentTime(post));
-            preparedStatement.setString(3,PostStatus.ACTIVE.name());
-            int resultSet = preparedStatement.executeUpdate();
-            if ( resultSet>0){
-                System.out.println("Successfully inserted post");
-            }
-        }catch(SQLException e){
-            System.out.println("Unable create statement");
-            e.printStackTrace();
-        }finally {
-            jdbcUtils.closeConnection();
-        }
-        Post savedPost = getPostByContent(post);
-        return savedPost;
-    }
-    public Post getPostByContent(Post post){
-        String sql = "select * from post WHERE content = ?;";
 
-        Integer id;
-        String content;
-        Long created;
-        Long updated;
-        PostStatus status;
-
-        try {
-            connection = jdbcUtils.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(SAVE_SQL)) {
             preparedStatement.setString(1, post.getContent());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                id= resultSet.getInt("id");
-                content = resultSet.getString("content");
-                created = resultSet.getLong("created");
-                updated = resultSet.getLong("updated");
-                status=PostStatus.valueOf(resultSet.getString("post_status"));
-                Post postRequired =new  Post(id,content,created,updated,status);
-                postRequired.setLabels(getAllLabelsInPost(postRequired));
-                return postRequired;
+            preparedStatement.setTimestamp(2,  getCurrentTime(post));
+            preparedStatement.setString(3, PostStatus.ACTIVE.name());
+            preparedStatement.executeUpdate();
+            ResultSet resultSet= preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                return mapResultSetToPost(resultSet);
             }
-        }catch (SQLException e){
-            System.out.println("Unable to create statement get by content");
-            e.printStackTrace();
-        } finally {
-            jdbcUtils.closeConnection();
+        } catch (SQLException e) {
+
+            throw new RuntimeException();
         }
         return null;
     }
 
+//    public Post getPostByContent(Post post) {
+//        String sql = "select * from post WHERE content = ?;";
+//
+//        Integer id;
+//        String content;
+//        Long created;
+//        Long updated;
+//        PostStatus status;
+//
+//        try {
+//            connection = jdbcUtils.getConnection();
+//            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+//            preparedStatement.setString(1, post.getContent());
+//            ResultSet resultSet = preparedStatement.executeQuery();
+//            if (resultSet.next()) {
+//                id = resultSet.getInt("id");
+//                content = resultSet.getString("content");
+//                created = resultSet.getLong("created");
+//                updated = resultSet.getLong("updated");
+//                status = PostStatus.valueOf(resultSet.getString("post_status"));
+//                Post postRequired = new Post(id, content, created, updated, status);
+//                postRequired.setLabels(getAllLabelsInPost(postRequired));
+//                return postRequired;
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("Unable to create statement get by content");
+//            e.printStackTrace();
+//        } finally {
+//            jdbcUtils.closeConnection();
+//        }
+//        return null;
+//    }
+
     @Override
     public Post update(Post post) {
-        String sql = "UPDATE post SET content =?, update = ?, post_status = ? WHERE id = ? ;";
-        connection = jdbcUtils.getConnection();
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(UPDATE_SQL)){
             preparedStatement.setString(1, post.getContent());
-            preparedStatement.setLong(2,getCurrentTime(post));
-            preparedStatement.setString(3,PostStatus.UNDER_REVIEW.name());
-            preparedStatement.setInt(4,post.getId());
-            int resultSet = preparedStatement.executeUpdate();
-            if(resultSet>0){
+            preparedStatement.setTimestamp(2, getCurrentTime(post));
+            preparedStatement.setString(3, PostStatus.UNDER_REVIEW.name());
+            preparedStatement.setInt(4, post.getId());
+            preparedStatement.executeUpdate();
+            ResultSet resultSet =  preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
                 System.out.println("Successfully updated post");
+                return mapResultSetToPost(resultSet);
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Unable to update post");
             e.printStackTrace();
-        }finally {
-            jdbcUtils.closeConnection();
         }
         return null;
     }
 
     @Override
     public void deleteById(Integer integer) {
-        String sql = "DELETE FROM post WHERE id = ?;";
-        connection = jdbcUtils.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,integer);
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(DELETE_SQL)){
+            preparedStatement.setInt(1, integer);
             int resultSet = preparedStatement.executeUpdate();
-            if(resultSet>0){
+            if (resultSet > 0) {
                 System.out.println("Successfully deleted label");
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Unable to delete post ");
             e.printStackTrace();
-        }finally {
-            jdbcUtils.closeConnection();
         }
     }
 
-    private Long getCurrentTime(Post post) {
-        return new Date().getTime();
+    private Timestamp getCurrentTime(Post post) {
+//
+        return  new Timestamp(System.currentTimeMillis());
     }
 
-    public void saveLabelInPost(Post post, Label label){
-        update(post);
-        JdbcLabelRepositoryImpl repository =new JdbcLabelRepositoryImpl();
-        repository.save(label);
-        String sql ="INSERT INTO label_post (post_id, label_id) \" +\n" +
-                "                \"VALUES (?,?);\"";
-        try {
-            connection = jdbcUtils.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,post.getId());
-            preparedStatement.setInt(2,label.getId());
-            preparedStatement.executeUpdate();
-    }catch (SQLException e){
-            System.out.println("Unable to create statement get by id");
-            e.printStackTrace();
-        }finally {
-            jdbcUtils.closeConnection();
+    public void saveLabelInPost(Integer postID, Integer labelId){
+
+
+        {
+            try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(ADD_LABEL_INTO_POST_SQL)) {
+                preparedStatement.setInt(1, postID);
+                preparedStatement.setInt(2, labelId);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println("Unable to create statement get by id");
+                e.printStackTrace();
+            }
         }
     }
 
-    public List<Label> getAllLabelsInPost(Post post){
-        String sql ="SELECT * FROM label " +
-                "JOIN label_post ON label.id =label_post.label_id " +
-                "JOIN post ON post.id=label_post.post_id WHERE label.id=?; ";
-        try{
-            connection = jdbcUtils.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,post.getId());
+    public List<Label> getAllLabelsInPost(Integer postId) {
+
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(GET_ALL_LABELS_IN_POST) ){
+            preparedStatement.setInt(1, postId);
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Label> labelList = new ArrayList<>();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Label label = new Label(resultSet.getInt("id"),
-                                        resultSet.getString("label"));
+                        resultSet.getString("label"));
                 labelList.add(label);
             }
             return labelList;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Unable to create statement get all labels in post");
             e.printStackTrace();
-        } finally {
-            jdbcUtils.closeConnection();
         }
-    return null;
+        return null;
     }
 
 

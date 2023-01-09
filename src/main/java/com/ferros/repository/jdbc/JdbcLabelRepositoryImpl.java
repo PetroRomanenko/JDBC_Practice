@@ -7,113 +7,92 @@ import com.ferros.utils.JdbcUtils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JdbcLabelRepositoryImpl implements LabelRepository {
     JdbcUtils jdbcUtils = new JdbcUtils();
     Connection connection = null;
+    private static final String SAVE_SQL = """
+            INSERT INTO label (label) 
+            VALUES (?);
+            """;
+    private static final String GET_ALL_SQL = """
+            SELECT id,
+                   label
+            FROM label
+            """;
+    private static final String GET_BY_ID_SQL =GET_ALL_SQL+ """
+            WHERE id=?;
+            """;
+    private static final String UPDATE_SQL = """
+            UPDATE label
+            SET label = ?
+            WHERE id=?;
+            """;
+
+    private static final String DELETE_SQL = """
+            DELETE  FROM label
+            WHERE id = ?;
+            """;
+
+    private Label mapResultSetToLabel(ResultSet resultSet) throws SQLException {
+        Integer id = resultSet.getInt("id");
+        String labelName = resultSet.getString("label");
+        return new Label(id, labelName);
+    }
+
     @Override
-    public Label getById(Integer integer) {
-        String sql = "select * from label WHERE id=?;";
+    public Label getById(Integer id) {
 
-        int id;
-        String stringLabel;
-        try {
-            connection = jdbcUtils.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1,integer);
-            ResultSet resultSet=preparedStatement.executeQuery();
-            if(resultSet.next()) {
-                id = resultSet.getInt("id");
-                stringLabel = resultSet.getString("label");
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(GET_BY_ID_SQL)) {
 
-                return new Label(id, stringLabel);
-            }  else {
-                System.out.println("такого id не существует");
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return  mapResultSetToLabel(resultSet);
             }
 
         } catch (SQLException e) {
             System.out.println("Unable to create statement get by id");
             e.printStackTrace();
-        } finally {
-            jdbcUtils.closeConnection();
         }
 
         return null;
     }
 
-    public Label getByLabelName(String labelName) {
-        String sql = "SELECT * FROM label WHERE label = ?;";
-        Integer id;
-        String stringLabel;
-        try {
-            connection = jdbcUtils.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, labelName);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()){
-                id = resultSet.getInt("id");
-                stringLabel = resultSet.getString("label");
-                return new Label(id, stringLabel);
-            }else {
-                System.out.println("такого id не существует");
-            }
 
-
-        } catch (SQLException e) {
-            System.out.println("Unable to create statement get by label");
-            e.printStackTrace();
-        } finally {
-            jdbcUtils.closeConnection();
-        }
-
-        return null;
-    }
-
-        @Override
+    @Override
     public List<Label> getAll() {
-        String sql ="SELECT * FROM label;";
-        connection = jdbcUtils.getConnection();
         Label label;
-        List<Label> labelList= new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
+        List<Label> labelList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(GET_ALL_SQL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
-                label = new Label(resultSet.getInt("id"),resultSet.getString("label"));
+            while (resultSet.next()) {
+                label = new Label(resultSet.getInt("id"),
+                        resultSet.getString("label"));
                 labelList.add(label);
             }
             return labelList;
         } catch (SQLException e) {
-            System.out.println("Problem with connections");
-            e.printStackTrace();
-        }finally {
-            jdbcUtils.closeConnection();
+            throw new RuntimeException();
         }
 
-
-        return null;
     }
 
     @Override
     public Label save(Label label) {
-        String sql ="INSERT INTO label (label) VALUES (?);";
-        connection = jdbcUtils.getConnection();
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, label.getName());
-            int resultSet = preparedStatement.executeUpdate();
-            if (resultSet>0){
-                System.out.println("Successfully inserted label");
-            }
-            label=getByLabelName(label.getName());
 
-            return getById(label.getId());
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(SAVE_SQL)) {
+            preparedStatement.setString(1, label.getName());
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                return mapResultSetToLabel(resultSet);
+            }
         } catch (SQLException e) {
             System.out.println("Unable create statement");
             e.printStackTrace();
-        }finally {
-            jdbcUtils.closeConnection();
         }
 
         return null;
@@ -121,41 +100,32 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
 
     @Override
     public Label update(Label label) {
-        String sql = "UPDATE label SET label =? WHERE id=?;";
-        connection = jdbcUtils.getConnection();
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,label.getName());
-            preparedStatement.setInt(2,label.getId());
-            int resultSet = preparedStatement.executeUpdate();
-            if (resultSet>0){
-                System.out.println("Successfully updated label");
-            }
 
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(UPDATE_SQL);) {
+            preparedStatement.setString(1, label.getName());
+            preparedStatement.setInt(2, label.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Unable to update label");
             e.printStackTrace();
         }
-
         return getById(label.getId());
     }
 
     @Override
-    public void deleteById(Integer integer) {
-        String sql ="DELETE FROM label WHERE id=?;";
-        connection = jdbcUtils.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, integer);
+    public void deleteById(Integer id) {
+        try (PreparedStatement preparedStatement =JdbcUtils.getPreparedStatement(DELETE_SQL)){
+            preparedStatement.setInt(1, id);
             int resultSet = preparedStatement.executeUpdate();
             if (resultSet > 0) {
-                System.out.println("Successfully inserted label");
+                // ЧТО тут написать хз
+//                System.out.println("Successfully inserted label");
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Unable to delete label ");
             e.printStackTrace();
+        }
+
+
     }
-
-
-}
 }

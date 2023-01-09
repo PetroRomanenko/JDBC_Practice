@@ -1,10 +1,13 @@
 package com.ferros.view;
 
 import com.ferros.controller.PostController;
+import com.ferros.model.Label;
 import com.ferros.model.Post;
 import com.ferros.model.PostStatus;
 import com.ferros.model.Writer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PostView {
@@ -38,10 +41,12 @@ public class PostView {
         System.out.println("Desired Post: " + foundedPost);
     }
 
-//    public void showAllPosts() {
-//        System.out.println("All posts: ");
-//        controller.printPostList(controller.getAllPosts());
-//    }
+    public void showAllPosts() {
+        System.out.println("All posts: ");
+        printPostList(controller.getAllPosts());
+    }
+
+
 
     public void updatePost() {
         System.out.println("Enter Post id: ");
@@ -49,28 +54,61 @@ public class PostView {
         scanner.skip("\n");
         System.out.println("Desired Post: " + controller.findPostById(updatedPostID));
 
+        if(controller.findPostById(updatedPostID)!=null){
+            System.out.println("Change name of Post: ");
+            String updatedPostName = scanner.nextLine();
 
-        System.out.println("Change name of Post: ");
-        String updatedPostName = scanner.nextLine();
+            LabelView labelView = new LabelView();
 
-        LabelView labelView = new LabelView();
+            System.out.println("Chose id of Label: ");
+            labelView.showAllLabels();
+            Integer labelId = scanner.nextInt();
+            scanner.skip("\n");
 
-        System.out.println("Chose id of Label: ");
-        labelView.showAllLabels();
-        Integer labelId = scanner.nextInt();
-        scanner.skip("\n");
+            Post updatedPost = controller.findPostById(updatedPostID);
+            updatedPost.setContent(updatedPostName);
 
-        Post updatedPost = new Post(updatedPostID, updatedPostName, PostStatus.UNDER_REVIEW);
-        controller.update(updatedPost,labelId);
+            updatedPost.setLabels(controller.getAllLabelsInThisPost(updatedPostID));
+            controller.update(updatedPost,labelId);
+        }else {
+            System.out.println("Нет такого поста выберете еще раз");
+            menuChoice();
+        }
+
+
     }
 
     public void deletePostByID() {
         System.out.println("Enter Post Id: ");
         int deletedPostID = scanner.nextInt();
         scanner.skip("\n");
-        Post post = controller.findPostById(deletedPostID);
-        controller.deletePostById(deletedPostID);
-        System.out.println(post + "  successfully deleted");
+        if(controller.findPostById(deletedPostID)!=null) {
+            Post post = controller.findPostById(deletedPostID);
+            post.setStatus(PostStatus.DELETED);
+            controller.deletePostById(deletedPostID);
+            System.out.println(post + "  successfully deleted");
+        }else {
+            System.out.println("Нет такого поста выберете еще раз");
+            menuChoice();
+        }
+    }
+
+    private void getAllLabelInPost() {
+        System.out.println("Enter Post Id: ");
+        int postID = scanner.nextInt();
+        scanner.skip("\n");
+        if(controller.findPostById(postID)!=null) {
+            if (controller.getAllLabelsInThisPost(postID)!=null) {
+                printPostList(controller.getAllLabelsInThisPost(postID));
+            }else {
+                System.out.println("У данного поста нет ЛЕйблов");
+            }
+
+        }else {
+            System.out.println("Нет такого поста выберете еще раз");
+            menuChoice();
+        }
+
     }
 
     public void showMenuMassage() {
@@ -90,7 +128,7 @@ public class PostView {
 
                     break;
                 case 2:
-//                    showAllPosts();
+                    showAllPosts();
                     break;
                 case 3:
                     findPostById();
@@ -101,15 +139,22 @@ public class PostView {
                 case 5:
                     deletePostByID();
                     break;
+                case 6:
+                    getAllLabelInPost();
+                    break;
 
             }
-        } while (chose != 6);
+        } while (chose != 7);
 
 
     }
 
     private void showPrettyPost(Post post) {
         System.out.println("");
+    }
+
+    private void printPostList(List postList){
+        System.out.println(postList.toString());
     }
 
 }

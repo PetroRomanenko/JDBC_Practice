@@ -1,3 +1,5 @@
+package controller;
+
 import com.ferros.controller.PostController;
 import com.ferros.model.Label;
 import com.ferros.model.Post;
@@ -51,9 +53,9 @@ public class PostControllerTest {
                 new Label(2, "Second"),
                 new Label(3, "Third"));
 
-        when(postRepository.getAllLabelsInPost(post1)).thenReturn(labelList);
+        when(postRepository.getAllLabelsInPost(post1.getId())).thenReturn(labelList);
 
-        assertEquals(labelList1, pc.getAllLabelsInThisPost(post1, postRepository));
+        assertEquals(labelList1, pc.getAllLabelsInThisPost(post1.getId()));
     }
 
     @Test
@@ -66,9 +68,9 @@ public class PostControllerTest {
                 new Label(2, "Second"),
                 new Label(3, "Third"));
 
-        when(postRepository.getAllLabelsInPost(post1)).thenReturn(labelList);
+        when(postRepository.getAllLabelsInPost(post1.getId())).thenReturn(labelList);
 
-        assertNull(pc.getAllLabelsInThisPost(post1, postRepository));
+        assertNull(pc.getAllLabelsInThisPost(post1.getId()));
 
     }
 

@@ -4,6 +4,7 @@ import com.ferros.model.Label;
 import com.ferros.model.Post;
 import com.ferros.model.PostStatus;
 import com.ferros.repository.PostRepository;
+import com.ferros.repository.jdbc.JdbcLabelRepositoryImpl;
 import com.ferros.repository.jdbc.JdbcPostRepositoryImpl;
 
 import java.util.List;
@@ -39,18 +40,24 @@ public class PostController {
     public Post update(Post post, Integer id){
 
         postRepository.update(post);
-        return  post;
+        saveNewLabelToPost(post.getId(), id);
+        return  postRepository.getById(post.getId());
     }
 
     public void deletePostById(Integer id){
         postRepository.deleteById(id);
     }
 
-    public List<Label> getAllLabelsInThisPost(Post post, JdbcPostRepositoryImpl sqlPostRepository){
-        if (post!=null){
-           return sqlPostRepository.getAllLabelsInPost(post);
+    public List<Label> getAllLabelsInThisPost(Integer postId ){
+        if (postId!=null){
+           return postRepo.getAllLabelsInPost(postId);
         }
         return null;
     }
 
+    public void saveNewLabelToPost(Integer postID, Integer labelID) {
+        if (postID!=null){
+            postRepo.saveLabelInPost(postID, labelID);
+        }
+    }
 }
