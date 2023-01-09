@@ -1,0 +1,5 @@
+com\ferros\repository\jdbc\JdbcWriterRepositoryImpl.class
+com\ferros\view\PostView.class
+com\ferros\controller\LabelController.class
+com\ferros\controller\WriterController.class
+com\ferros\controller\PostController.class
