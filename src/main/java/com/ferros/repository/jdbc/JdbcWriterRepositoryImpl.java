@@ -12,24 +12,57 @@ import java.util.List;
 
 public class JdbcWriterRepositoryImpl implements WriterRepository {
 
+    private static final String GET_ALL_SQL = """
+            SELECT * from writer w
+            LEFT JOIN postwriter pw on w.writer_id = pw.writer_id
+                                    LEFT JOIN post p on post_id = p.id 
+                                      
+            """;
+    // LEFT JOIN postwriter pw on w.id = pw.writer_id
+    //                     LEFT JOIN post p on post_id = p.id  
+    private static final String GET_BY_ID_SQL = GET_ALL_SQL + " WHERE w.writer_id = ?";
+
+    private static final String SAVE_SQL = """
+            INSERT INTO writer (firstname, lastname) 
+                            VALUES (?,?);
+            """;
+
+    private static final String UPDATE_SQL = """
+            UPDATE writer SET firstname =?, lastname = ? WHERE writer_id = ? ;
+            """;
+
+    private static final String DELETE_SQL = """
+            DELETE FROM writer WHERE writer_id = ?;
+            """;
+
+    private static final String SAVE_WRITER_OF_THE_POST_SQL = """
+            INSERT INTO postwriter( post_id, writer_id)
+                                VALUES (?,?);
+            """;
+
+
     private Writer mapResultSetToWriter(ResultSet resultSet) throws SQLException {
-        Integer id = resultSet.getInt("id");
+        List<Post> postList = new ArrayList<>();
+        Integer id = resultSet.getInt("writer_id");
         String firstname = resultSet.getString("firstname");
         String lastname = resultSet.getString("lastname");
-        return new Writer(id, firstname, lastname, null);
+        while (resultSet.next()){
+            JdbcPostRepositoryImpl postRepository = new JdbcPostRepositoryImpl();
+
+            Post post = postRepository.getById(resultSet.getInt(id));
+
+            postList.add(post);
+        }
+        return new Writer(id, firstname, lastname, postList);
     }
 
     @Override
     public Writer getById(Integer integer) {
-        //TODO: use one query with join and enhanced result Set to Object mapping
-        String sql = "SELECT * from writer WHERE id=? LEFT JOIN " +
-                "SELECT * FROM post" +
-                "                JOIN postwriter as pw ON post.id =pw.post_id" +
-                "                JOIN writer ON writer.id=pw.writer_id WHERE writer.id=?; ";
 
-        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(sql)){
+
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(GET_BY_ID_SQL)){
             preparedStatement.setInt(1, integer);
-            preparedStatement.setInt(2, integer);
+
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -45,13 +78,11 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
 
     @Override
     public List<Writer> getAll() {
-        String sql = "SELECT * FROM writer;";
 
-        Writer writer;
         List<Writer> writerList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(sql)){
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(GET_ALL_SQL)){
 
-            ResultSet resultSet = preparedStatement.executeQuery(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
                writerList.add(mapResultSetToWriter(resultSet));
@@ -66,14 +97,15 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
 
     @Override
     public Writer save(Writer writer) {
-        String sql = "INSERT INTO writer (firstname, lastname) " +
-                "VALUES (?,?);";
-        try(PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(sql)){
+
+        try(PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(SAVE_SQL)){
             preparedStatement.setString(1,writer.getFirstName());
             preparedStatement.setString(2,writer.getLastName());
-            ResultSet resultSet = preparedStatement.executeQuery();
+             preparedStatement.executeUpdate();
+            ResultSet resultSet= preparedStatement.getGeneratedKeys();
             if ( resultSet.next()){
                 System.out.println("Successfully inserted post");
+                return mapResultSetToWriter(resultSet);
             }
         }catch(SQLException e){
             System.out.println("Unable create statement");
@@ -84,19 +116,17 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
 
     @Override
     public Writer update(Writer writer) {
-        String sql = "UPDATE post SET firstname =?, lastname = ? WHERE id = ? ;";
 
-        try(PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(sql)){
-
+        try(PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(UPDATE_SQL)){
             preparedStatement.setString(1, writer.getFirstName());
             preparedStatement.setString(1, writer.getLastName());
             preparedStatement.setInt(3, writer.getId());
+
             int resultSet = preparedStatement.executeUpdate();
             if(resultSet>0){
                 System.out.println("Successfully updated post");
                 return writer;
             }
-
 
         }catch (SQLException e){
             System.out.println("Unable to update post");
@@ -107,9 +137,8 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
 
     @Override
     public void deleteById(Integer integer) {
-            String sql = "DELETE FROM writer WHERE id = ?;";
 
-            try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(sql)){
+            try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(DELETE_SQL)){
                 preparedStatement.setInt(1,integer);
                 int resultSet = preparedStatement.executeUpdate();
                 if(resultSet>0){
@@ -123,44 +152,14 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
 
     }
 
-    public List<Post> getAllPostsByThisWritersId(Integer id) {
-        JdbcPostRepositoryImpl sqlPostRepository = new JdbcPostRepositoryImpl();
 
-        String sql = "SELECT * FROM post" +
-                "JOIN postwriter as pw ON post.id =pw.post_id" +
-                "JOIN writer ON writer.id=pw.writer_id WHERE writer.id=?; ";
-        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(sql)){
 
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Post> postList = new ArrayList<>();
-            while (resultSet.next()) {
-//                sqlPostRepository.
-                //TODO: Вставить медод мапинг обьекта пост
-                Post post = new Post(resultSet.getInt("id"),
-                        resultSet.getString("content"),
-                        resultSet.getLong("created"),
-                        resultSet.getLong("updated"),
-                        PostStatus.valueOf(resultSet.getString("post_status")));
-                postList.add(post);
-            }
-            return postList;
+    public void saveWriterToPost(Integer writerID, Integer postID){
 
-        } catch (SQLException e) {
-            System.out.println("Unable to create statement get by id");
-            e.printStackTrace();
-        }
-        //Дописать метод
-        return null;
-    }
+        try(PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(SAVE_WRITER_OF_THE_POST_SQL)){
 
-    public void saveWriterToPost(Writer writer, Post post){
-        String sql ="INSERT INTO postwriter( post_id, writer_id)" +
-                    "VALUES (?,?);";
-        try(PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(sql)){
-
-            preparedStatement.setInt(2,writer.getId());
-            preparedStatement.setInt(1,post.getId());
+            preparedStatement.setInt(2,writerID);
+            preparedStatement.setInt(1,postID);
             preparedStatement.executeUpdate();
         }catch (SQLException e){
             System.out.println("Unable to create statement save writer to post");

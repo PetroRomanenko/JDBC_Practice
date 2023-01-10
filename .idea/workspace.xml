@@ -5,93 +5,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ece9dc6-93a1-443e-b153-1a6b3f7c71c0" name="Default Changelist" comment="Отрефактромил Пост и Лейбл, протестил до уровня вью">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/game.8kswAA.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/information_schema.FNRwLQ.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/pg_catalog.0S1ZNQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/pg_catalog.0S1ZNQ.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/public.abK9xQ.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_10.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_opencsv_opencsv_5_7_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_javax_activation_api_1_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_xml_bind_jaxb_api_2_3_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_13_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_8_15.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_agent_1_8_15.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_collections4_4_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_12_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_text_1_10_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apiguardian_apiguardian_api_1_1_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_checkerframework_checker_qual_3_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_api_5_8_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_jupiter_junit_jupiter_engine_5_8_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_commons_1_8_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_junit_platform_junit_platform_engine_1_8_1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_liquibase_liquibase_core_4_17_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_2_21_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_junit_jupiter_2_23_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_6.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_opentest4j_opentest4j_1_2_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_postgresql_postgresql_42_5_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_33.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JDBC_Practice.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/ferros/repository/jdbc/RunnerForTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/Main.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/controller/LabelController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/controller/PostController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/controller/WriterController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/model/Label.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/model/Message.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/model/Post.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/model/PostStatus.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/model/Writer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/GenericRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/LabelRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/PostRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/WriterRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/gson/JsonLabelRepositoryImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/gson/JsonLabelRepositoryImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/gson/JsonPostRepositoryImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/gson/JsonPostRepositoryImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/gson/JsonWriterRepositoryImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/gson/JsonWriterRepositoryImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/JdbcLabelRepositoryImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/JdbcPostRepositoryImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/JdbcWriterRepositoryImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/RunnerForTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/utils/JdbcUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/utils/PropertiesUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/ConsoleRunner.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/LabelView.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/MainView.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/PostView.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/WriterView.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/database.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/dbchangelog.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/liquibase.propeties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/LabelTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/controller/LabelControllerTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/controller/PostControllerTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/test-classes/controller/WriterControllerTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/db.changelog-master.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/changelog/v-1.0/db.changelog-v.1.0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/pg_catalog.0S1ZNQ.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/pg_catalog.0S1ZNQ.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1bdbffcf-7fa3-43a8-a4fd-a3e831b9d31c/storage_v2/_src_/database/jdbc_crud.AmbH5g/schema/public.abK9xQ.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/controller/WriterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/controller/WriterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/model/Writer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/model/Writer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/repository/jdbc/JdbcPostRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/repository/jdbc/JdbcPostRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/repository/jdbc/JdbcWriterRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/repository/jdbc/JdbcWriterRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/view/LabelView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/view/LabelView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/view/PostView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/view/PostView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ferros/view/WriterView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ferros/view/WriterView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/controller/LabelControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/controller/LabelControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/controller/PostControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/controller/PostControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/controller/PostController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/controller/PostController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/controller/WriterController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/controller/WriterController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/model/Writer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/model/Writer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/JdbcPostRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/JdbcPostRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/JdbcWriterRepositoryImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/repository/jdbc/JdbcWriterRepositoryImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/view/LabelView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/LabelView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/view/PostView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/PostView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ferros/view/WriterView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ferros/view/WriterView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/controller/LabelControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/controller/LabelControllerTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/controller/PostControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/controller/PostControllerTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +44,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -143,7 +86,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.PostControllerTest">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -168,7 +111,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LabelControllerTest.saveLabelNullTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LabelControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JDBC_Practice" />
       <extension name="coverage">
         <pattern>
@@ -178,45 +121,21 @@
       </extension>
       <option name="PACKAGE_NAME" value="controller" />
       <option name="MAIN_CLASS_NAME" value="controller.LabelControllerTest" />
-      <option name="METHOD_NAME" value="saveLabelNullTest" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LabelControllerTest.updateLabelsTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="LabelTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JDBC_Practice" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.LabelControllerTest" />
-      <option name="METHOD_NAME" value="updateLabelsTest" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LabelTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PostControllerTest.getAllLabelsInPostTestNullPost" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JDBC_Practice" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="controller.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="controller" />
-      <option name="MAIN_CLASS_NAME" value="controller.PostControllerTest" />
-      <option name="METHOD_NAME" value="getAllLabelsInPostTestNullPost" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PostControllerTest.getAllLabelsInPostTestPost" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PostControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JDBC_Practice" />
       <extension name="coverage">
         <pattern>
@@ -226,19 +145,33 @@
       </extension>
       <option name="PACKAGE_NAME" value="controller" />
       <option name="MAIN_CLASS_NAME" value="controller.PostControllerTest" />
-      <option name="METHOD_NAME" value="getAllLabelsInPostTestPost" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WriterControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JDBC_Practice" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="controller" />
+      <option name="MAIN_CLASS_NAME" value="controller.WriterControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PostControllerTest" />
+        <item itemvalue="JUnit.LabelControllerTest" />
+        <item itemvalue="JUnit.WriterControllerTest" />
+        <item itemvalue="JUnit.LabelTest" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.PostControllerTest.getAllLabelsInPostTestNullPost" />
-        <item itemvalue="JUnit.PostControllerTest.getAllLabelsInPostTestPost" />
-        <item itemvalue="JUnit.LabelControllerTest.saveLabelNullTest" />
-        <item itemvalue="JUnit.LabelControllerTest.updateLabelsTest" />
       </list>
     </recent_temporary>
   </component>
@@ -253,7 +186,12 @@
       <workItem from="1669989104169" duration="1063000" />
       <workItem from="1673162943788" duration="6296000" />
       <workItem from="1673186496793" duration="15382000" />
-      <workItem from="1673261149073" duration="539000" />
+      <workItem from="1673261149073" duration="984000" />
+      <workItem from="1673266095334" duration="10825000" />
+      <workItem from="1673278775945" duration="3787000" />
+      <workItem from="1673336176561" duration="3227000" />
+      <workItem from="1673343489029" duration="3434000" />
+      <workItem from="1673347844058" duration="2661000" />
     </task>
     <task id="LOCAL-00001" summary="Ввел калас PropertiesUtil&#10;пароли, урл и логин вынес в отдельный класс">
       <created>1671957929632</created>
@@ -269,7 +207,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673261320445</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Отрефактромил Пост и Лейбл, протестил до уровня вью">
+      <created>1673261710969</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1673261710969</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,21 +239,20 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/ferros/repository/jdbc/JdbcPostRepositoryImpl.java</url>
-          <line>112</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/ferros/repository/jdbc/JdbcPostRepositoryImpl.java</url>
-          <line>111</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/ferros/view/PostView.java</url>
-          <line>67</line>
+          <line>70</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/ferros/controller/WriterController.java</url>
+          <line>15</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="org.postgresql.util.PSQLException" package="org.postgresql.util" />
+          <option name="timeStamp" value="11" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

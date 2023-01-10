@@ -7,6 +7,7 @@ import com.ferros.model.PostStatus;
 import com.ferros.model.Writer;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,7 +21,8 @@ public class PostView {
             "3.Show by ID \n" +
             "4.Update \n" +
             "5.Delete \n" +
-            "6.Exit to previous menu";
+            "6.Show list of label in Post \n" +
+            "7.Exit to previous menu";
     private final String line = "****************************************";
 
     public void createPost() {
@@ -38,12 +40,13 @@ public class PostView {
         scanner.skip("\n");
 
         Post foundedPost = controller.findPostById(lookedId);
-        System.out.println("Desired Post: " + foundedPost);
+        printPost(foundedPost, "You are looked for this post: ");
     }
 
     public void showAllPosts() {
         System.out.println("All posts: ");
         printPostList(controller.getAllPosts());
+
     }
 
 
@@ -70,6 +73,7 @@ public class PostView {
 
             updatedPost.setLabels(controller.getAllLabelsInThisPost(updatedPostID));
             controller.update(updatedPost,labelId);
+            printPost(updatedPost,"Updated post: ");
         }else {
             System.out.println("Нет такого поста выберете еще раз");
             menuChoice();
@@ -86,7 +90,7 @@ public class PostView {
             Post post = controller.findPostById(deletedPostID);
             post.setStatus(PostStatus.DELETED);
             controller.deletePostById(deletedPostID);
-            System.out.println(post + "  successfully deleted");
+            printPost(post,"Deleted Post");
         }else {
             System.out.println("Нет такого поста выберете еще раз");
             menuChoice();
@@ -99,7 +103,8 @@ public class PostView {
         scanner.skip("\n");
         if(controller.findPostById(postID)!=null) {
             if (controller.getAllLabelsInThisPost(postID)!=null) {
-                printPostList(controller.getAllLabelsInThisPost(postID));
+                LabelView labelView = new LabelView();
+                labelView.printList(controller.getAllLabelsInThisPost(postID));
             }else {
                 System.out.println("У данного поста нет ЛЕйблов");
             }
@@ -149,12 +154,29 @@ public class PostView {
 
     }
 
-    private void showPrettyPost(Post post) {
-        System.out.println("");
+
+
+    public void printPostList(List<Post> postList){
+
+        for (Post post:postList  ) {
+            printPost(post,null);
+        }
     }
 
-    private void printPostList(List postList){
-        System.out.println(postList.toString());
+    public void printPost(Post post, String message){
+        if(message!=null) {
+            System.out.println(message);
+        }
+        System.out.print("Post id: " +post.getId()+"    ");
+        System.out.println("Post content: " +post.getContent());
+        System.out.println("Post created: "+new Date(post.getCreated()));
+        if (post.getUpdated()!=null){
+            System.out.println("Post updated:" +new Date(post.getUpdated()));
+        }
+        System.out.println("Post status: " + post.getStatus());
+        System.out.println("Labels in this post: ");
+        LabelView labelView = new LabelView();
+        labelView.printList(post.getLabels());
     }
 
 }

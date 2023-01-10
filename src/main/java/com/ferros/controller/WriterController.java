@@ -8,11 +8,15 @@ import com.ferros.repository.jdbc.JdbcWriterRepositoryImpl;
 import java.util.List;
 
 public class WriterController {
-    //TODO: error is here
+    JdbcWriterRepositoryImpl writerRepo = new JdbcWriterRepositoryImpl();
+
     private final WriterRepository writerRepository = new JdbcWriterRepositoryImpl();
     public Writer saveWriter(String firstName, String lastName, List<Post> postList){
-        Writer writer = new Writer(null, firstName,lastName, postList);
-        return writerRepository.save(writer);
+        if (firstName!=null&& lastName!=null){
+        Writer writer = new Writer(firstName,lastName);
+            return writerRepository.save(writer);
+        }
+        else return null;
     }
 
     public Writer findWriterById(Integer id){
@@ -23,17 +27,25 @@ public class WriterController {
         return writerRepository.getAll();
     }
 
-    public Writer update(Writer writer){
+    public void saveWriterToPost(Integer writerID, Integer postID){
+        if(writerID!=null&&postID!=null){
+            writerRepo.saveWriterToPost(writerID,postID);
+        }
+    }
+
+    public Writer update(Writer writer, Integer postID){
         writerRepository.update(writer);
+        saveWriterToPost(writer.getId(), postID);
+
         return  writer;
     }
 
     public void deleteWriterById(Integer id){
+
         writerRepository.deleteById(id);
     }
 
-    public void printWriterList(List<Writer> writers){
-//        writerRepository.printList(writers);
-    }
 
 }
+
+

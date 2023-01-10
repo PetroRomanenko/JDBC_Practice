@@ -19,6 +19,13 @@ public class Writer {
         this.posts = posts;
     }
 
+    public Writer(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+
+
     @Override
     public String toString() {
         return "Writer{" +

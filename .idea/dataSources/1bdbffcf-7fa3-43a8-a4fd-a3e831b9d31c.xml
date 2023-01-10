@@ -3,9 +3,9 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.45">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>988</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1082</IntrospectionStateNumber>
       <ServerVersion>15.0</ServerVersion>
-      <StartupTime>1673006456</StartupTime>
+      <StartupTime>1673277772</StartupTime>
       <TimeZones>true ACDT
 true ACSST
 false ACST
@@ -811,7 +811,7 @@ false Zulu
 13183||10|C|G
 13183||-9223372036854775808|U|G
 13183||10|U|G</Grants>
-      <IntrospectionStateNumber>988</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1082</IntrospectionStateNumber>
       <ObjectId>16409</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4216,7 +4216,6 @@ false Zulu
       <ValidatorSchema>pg_catalog</ValidatorSchema>
     </language>
     <schema id="263" parent="5" name="game">
-      <IntrospectionStateNumber>978</IntrospectionStateNumber>
       <ObjectId>24695</ObjectId>
       <StateNumber>816</StateNumber>
       <OwnerName>postgres</OwnerName>
@@ -5902,7 +5901,7 @@ false Zulu
     <schema id="266" parent="5" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>988</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1082</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>518</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -6009,20 +6008,23 @@ false Zulu
     </column>
     <foreign-key id="282" parent="271" name="fk_post">
       <ColNames>post_id</ColNames>
-      <ObjectId>16492</ObjectId>
+      <ObjectId>24864</ObjectId>
+      <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <StateNumber>787</StateNumber>
+      <StateNumber>1068</StateNumber>
       <RefTableId>16445</RefTableId>
       <RefTableName>post</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
     <foreign-key id="283" parent="271" name="fk_label">
       <ColNames>label_id</ColNames>
-      <ObjectId>16497</ObjectId>
+      <ObjectId>24869</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
       <RefColNames>id</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <StateNumber>787</StateNumber>
+      <StateNumber>1073</StateNumber>
       <RefTableId>16430</RefTableId>
       <RefTableName>label</RefTableName>
       <RefTableKind>table</RefTableKind>
@@ -6119,30 +6121,34 @@ false Zulu
     </column>
     <foreign-key id="296" parent="274" name="fk_post">
       <ColNames>post_id</ColNames>
-      <ObjectId>16482</ObjectId>
+      <ObjectId>24874</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
       <RefColNames>id</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <StateNumber>786</StateNumber>
+      <StateNumber>1077</StateNumber>
       <RefTableId>16445</RefTableId>
       <RefTableName>post</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
     <foreign-key id="297" parent="274" name="fk_writer">
       <ColNames>writer_id</ColNames>
-      <ObjectId>16487</ObjectId>
-      <RefColNames>id</RefColNames>
+      <ObjectId>24879</ObjectId>
+      <OnDelete>cascade</OnDelete>
+      <OnUpdate>cascade</OnUpdate>
+      <RefColNames>writer_id</RefColNames>
       <RefColPositions>1</RefColPositions>
-      <StateNumber>786</StateNumber>
+      <StateNumber>1081</StateNumber>
       <RefTableId>16450</RefTableId>
       <RefTableName>writer</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
-    <column id="298" parent="275" name="id">
+    <column id="298" parent="275" name="writer_id">
       <DasType>integer|0s</DasType>
       <DefaultExpression>nextval(&apos;writer_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>781</StateNumber>
+      <StateNumber>1044</StateNumber>
       <SequenceId>16449</SequenceId>
       <TypeId>23</TypeId>
     </column>
@@ -6161,7 +6167,7 @@ false Zulu
       <TypeId>1043</TypeId>
     </column>
     <index id="301" parent="275" name="writer_pkey">
-      <ColNames>id</ColNames>
+      <ColNames>writer_id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>16456</ObjectId>
       <Primary>1</Primary>
@@ -6174,7 +6180,7 @@ false Zulu
       <ObjectId>16457</ObjectId>
       <Primary>1</Primary>
       <StateNumber>781</StateNumber>
-      <UnderlyingIndexId>16456</UnderlyingIndexId>
+      <UnderlyingIndexColNames>writer_id</UnderlyingIndexColNames>
     </key>
   </database-model>
 </dataSource>

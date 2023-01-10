@@ -83,8 +83,9 @@ public class JdbcPostRepositoryImpl implements PostRepository {
              updated = resultSet.getTimestamp("updated").getTime();
         }
         PostStatus status = PostStatus.valueOf(resultSet.getString("post_status"));
+        List<Label> labelList = getAllLabelsInPost(id);
 
-        return new Post(id, content, created, updated, status);
+        return new Post(id, content, created, updated, status, labelList );
     }
 
     @Override
@@ -211,7 +212,7 @@ public class JdbcPostRepositoryImpl implements PostRepository {
         }
     }
 
-    public List<Label> getAllLabelsInPost(Integer postId) {
+    public static List<Label> getAllLabelsInPost(Integer postId) {
 
         try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(GET_ALL_LABELS_IN_POST) ){
             preparedStatement.setInt(1, postId);

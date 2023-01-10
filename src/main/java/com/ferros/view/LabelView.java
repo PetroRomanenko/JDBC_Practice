@@ -5,6 +5,7 @@ import com.ferros.model.Label;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.SortedMap;
 
 public class LabelView  {
 
@@ -28,7 +29,8 @@ public class LabelView  {
         String name = scanner.nextLine();
 
         Label createdLabel = controller.saveLabel(name);
-        System.out.println("Saved label: " + createdLabel);
+
+        printLabel(createdLabel, "Saved label: " );
     }
 
     public void findLabelById() {
@@ -37,12 +39,12 @@ public class LabelView  {
         scanner.skip("\n");
 
         Label findLabel = controller.findLabelById(lookedId);
-        System.out.println("Desired Label: " + findLabel);
+        printLabel(findLabel, "Saved label: ");
     }
 
     public void showAllLabels() {
         System.out.println("All labels: ");
-        printLabelList(controller.getAllLabels());
+        printList(controller.getAllLabels());
     }
 
     public void updateLabel() {
@@ -56,7 +58,8 @@ public class LabelView  {
         String updatedLabelName = scanner.nextLine();
 
         Label updatedLabel = new Label(updatedLabelID, updatedLabelName);
-        controller.update(updatedLabel);
+       printLabel(controller.update(updatedLabel)," Updated message"); ;
+
     }
 
     public void deleteLabelByID() {
@@ -65,7 +68,7 @@ public class LabelView  {
         scanner.skip("\n");
         Label label = controller.findLabelById(deletedLabelID);
         controller.deleteLabelByID(deletedLabelID);
-        System.out.println(label + "  successfully deleted");
+        printLabel(label , "Successfully deleted:");
     }
 
     public void showMenuMassage() {
@@ -101,10 +104,18 @@ public class LabelView  {
         } while (chose != 6);
     }
 
-    public void printLabelList(List<Label> labelList){
-        for (Label label:labelList             ) {
-            System.out.println(label);
-
+    public void printList(List<Label> labelList){
+        for (Label label:labelList  ) {
+            printLabel(label,null);
         }
+    }
+
+    public void printLabel(Label label, String message){
+        if(message!=null) {
+            System.out.println(message);
+        }
+        System.out.print("Label id: " +label.getId()+"    ");
+        System.out.println("Label name: " +label.getName());
+
     }
 }
