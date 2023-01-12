@@ -1,12 +1,9 @@
 package com.ferros.view;
 
 import com.ferros.controller.PostController;
-import com.ferros.model.Label;
 import com.ferros.model.Post;
 import com.ferros.model.PostStatus;
-import com.ferros.model.Writer;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -15,14 +12,15 @@ public class PostView {
     private Scanner scanner = new Scanner(System.in);
     private PostController controller = new PostController();
 
-    private final String CRUDMassage = "Chose action in Post: \n" +
-            "1.Create \n" +
-            "2.Show all \n" +
-            "3.Show by ID \n" +
-            "4.Update \n" +
-            "5.Delete \n" +
-            "6.Show list of label in Post \n" +
-            "7.Exit to previous menu";
+    private final String CRUDMassage = """
+            Chose action in Post:\s
+            1.Create\s
+            2.Show all\s
+            3.Show by ID\s
+            4.Update\s
+            5.Delete\s
+            6.Show list of label in Post\s
+            7.Exit to previous menu""";
     private final String line = "****************************************";
 
     public void createPost() {
@@ -128,26 +126,12 @@ public class PostView {
             showMenuMassage();
             chose = scanner.nextInt();
             switch (chose) {
-                case 1:
-                    createPost();
-
-                    break;
-                case 2:
-                    showAllPosts();
-                    break;
-                case 3:
-                    findPostById();
-                    break;
-                case 4:
-                    updatePost();
-                    break;
-                case 5:
-                    deletePostByID();
-                    break;
-                case 6:
-                    getAllLabelInPost();
-                    break;
-
+                case 1 -> createPost();
+                case 2 -> showAllPosts();
+                case 3 -> findPostById();
+                case 4 -> updatePost();
+                case 5 -> deletePostByID();
+                case 6 -> getAllLabelInPost();
             }
         } while (chose != 7);
 

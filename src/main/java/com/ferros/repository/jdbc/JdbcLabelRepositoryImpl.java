@@ -4,16 +4,18 @@ import com.ferros.model.Label;
 import com.ferros.repository.LabelRepository;
 import com.ferros.utils.JdbcUtils;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class JdbcLabelRepositoryImpl implements LabelRepository {
     JdbcUtils jdbcUtils = new JdbcUtils();
     Connection connection = null;
     private static final String SAVE_SQL = """
-            INSERT INTO label (label) 
+            INSERT INTO label (label)\s
             VALUES (?);
             """;
     private static final String GET_ALL_SQL = """
@@ -22,21 +24,21 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
             FROM label
             """;
     private static final String GET_BY_ID_SQL =GET_ALL_SQL+ """
-            WHERE id=?;
+            WHERE id_label=?;
             """;
     private static final String UPDATE_SQL = """
             UPDATE label
             SET label = ?
-            WHERE id=?;
+            WHERE id_label=?;
             """;
 
     private static final String DELETE_SQL = """
             DELETE  FROM label
-            WHERE id = ?;
+            WHERE id_label = ?;
             """;
 
     private Label mapResultSetToLabel(ResultSet resultSet) throws SQLException {
-        Integer id = resultSet.getInt("id");
+        Integer id = resultSet.getInt("id_label");
         String labelName = resultSet.getString("label");
         return new Label(id, labelName);
     }
@@ -63,15 +65,12 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
 
     @Override
     public List<Label> getAll() {
-        Label label;
         List<Label> labelList = new ArrayList<>();
         try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatementWithGeneratedKeys(GET_ALL_SQL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                label = new Label(resultSet.getInt("id"),
-                        resultSet.getString("label"));
-                labelList.add(label);
+                labelList.add(mapResultSetToLabel(resultSet));
             }
             return labelList;
         } catch (SQLException e) {
@@ -101,7 +100,7 @@ public class JdbcLabelRepositoryImpl implements LabelRepository {
     @Override
     public Label update(Label label) {
 
-        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(UPDATE_SQL);) {
+        try (PreparedStatement preparedStatement = JdbcUtils.getPreparedStatement(UPDATE_SQL)) {
             preparedStatement.setString(1, label.getName());
             preparedStatement.setInt(2, label.getId());
             preparedStatement.executeUpdate();

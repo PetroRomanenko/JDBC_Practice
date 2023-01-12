@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.45">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>1082</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1085</IntrospectionStateNumber>
       <ServerVersion>15.0</ServerVersion>
       <StartupTime>1673277772</StartupTime>
       <TimeZones>true ACDT
@@ -811,7 +811,7 @@ false Zulu
 13183||10|C|G
 13183||-9223372036854775808|U|G
 13183||10|U|G</Grants>
-      <IntrospectionStateNumber>1082</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1085</IntrospectionStateNumber>
       <ObjectId>16409</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -5901,7 +5901,7 @@ false Zulu
     <schema id="266" parent="5" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>1082</IntrospectionStateNumber>
+      <IntrospectionStateNumber>1085</IntrospectionStateNumber>
       <ObjectId>2200</ObjectId>
       <StateNumber>518</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
@@ -5942,15 +5942,15 @@ false Zulu
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="273" parent="266" name="poststatus">
-      <ObjectId>16463</ObjectId>
-      <StateNumber>784</StateNumber>
+    <table id="273" parent="266" name="post_writer">
+      <ObjectId>16479</ObjectId>
+      <StateNumber>1084</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
-    <table id="274" parent="266" name="postwriter">
-      <ObjectId>16479</ObjectId>
-      <StateNumber>786</StateNumber>
+    <table id="274" parent="266" name="poststatus">
+      <ObjectId>16463</ObjectId>
+      <StateNumber>784</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>postgres</OwnerName>
     </table>
@@ -6085,41 +6085,17 @@ false Zulu
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>784</StateNumber>
-      <TypeId>23</TypeId>
-    </column>
-    <column id="292" parent="273" name="status">
-      <DasType>varchar(255)|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-      <StateNumber>784</StateNumber>
-      <TypeId>1043</TypeId>
-    </column>
-    <foreign-key id="293" parent="273" name="fk_status">
-      <ColNames>post_id</ColNames>
-      <ObjectId>16466</ObjectId>
-      <RefColNames>id</RefColNames>
-      <RefColPositions>1</RefColPositions>
-      <StateNumber>784</StateNumber>
-      <RefTableId>16445</RefTableId>
-      <RefTableName>post</RefTableName>
-      <RefTableKind>table</RefTableKind>
-    </foreign-key>
-    <column id="294" parent="274" name="post_id">
-      <DasType>integer|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
       <StateNumber>786</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="295" parent="274" name="writer_id">
+    <column id="292" parent="273" name="writer_id">
       <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>786</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <foreign-key id="296" parent="274" name="fk_post">
+    <foreign-key id="293" parent="273" name="fk_post">
       <ColNames>post_id</ColNames>
       <ObjectId>24874</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -6131,7 +6107,7 @@ false Zulu
       <RefTableName>post</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
-    <foreign-key id="297" parent="274" name="fk_writer">
+    <foreign-key id="294" parent="273" name="fk_writer">
       <ColNames>writer_id</ColNames>
       <ObjectId>24879</ObjectId>
       <OnDelete>cascade</OnDelete>
@@ -6141,6 +6117,30 @@ false Zulu
       <StateNumber>1081</StateNumber>
       <RefTableId>16450</RefTableId>
       <RefTableName>writer</RefTableName>
+      <RefTableKind>table</RefTableKind>
+    </foreign-key>
+    <column id="295" parent="274" name="post_id">
+      <DasType>integer|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>784</StateNumber>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="296" parent="274" name="status">
+      <DasType>varchar(255)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>784</StateNumber>
+      <TypeId>1043</TypeId>
+    </column>
+    <foreign-key id="297" parent="274" name="fk_status">
+      <ColNames>post_id</ColNames>
+      <ObjectId>16466</ObjectId>
+      <RefColNames>id</RefColNames>
+      <RefColPositions>1</RefColPositions>
+      <StateNumber>784</StateNumber>
+      <RefTableId>16445</RefTableId>
+      <RefTableName>post</RefTableName>
       <RefTableKind>table</RefTableKind>
     </foreign-key>
     <column id="298" parent="275" name="writer_id">

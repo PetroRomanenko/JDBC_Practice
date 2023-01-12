@@ -7,9 +7,7 @@ import com.ferros.repository.PostRepository;
 import com.ferros.utils.JdbcUtils;
 
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class JdbcPostRepositoryImpl implements PostRepository {
@@ -20,21 +18,21 @@ public class JdbcPostRepositoryImpl implements PostRepository {
                    content,
                    created,
                    updated,
-                   post_status 
+                   post_status
             FROM post
             """;
     private static final String GET_BY_ID_SQL = GET_ALL_SQL + """
             WHERE ID = ?;
             """;
     private static final String SAVE_SQL = """
-            INSERT INTO post (content, created, post_status)  
+            INSERT INTO post (content, created, post_status)
             VALUES (?,?,?)
             """;
     private static final String UPDATE_SQL = """
-                UPDATE post 
-                SET content = ?, 
-                    updated = ?, 
-                    post_status = ? 
+                UPDATE post
+                SET content = ?,
+                    updated = ?,
+                    post_status = ?
                 WHERE id = ? ;
             """;
 
@@ -49,8 +47,8 @@ public class JdbcPostRepositoryImpl implements PostRepository {
             """;
 
     private static final String GET_ALL_LABELS_IN_POST = """
-    SELECT * FROM label 
-                JOIN label_post ON label.id =label_post.label_id 
+    SELECT * FROM label
+                JOIN label_post ON label.id =label_post.label_id
                 JOIN post ON post.id=label_post.post_id WHERE post.id=?;
         """;
 

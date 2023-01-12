@@ -11,11 +11,12 @@ public class MainView {
     private final Scanner scanner = new Scanner(System.in);
 
 
-    private final String menuMessage = "Chose action: \n" +
-            "1. Label \n" +
-            "2. Post:\n" +
-            "3. Author \n" +
-            "4. Exit";
+    private final String menuMessage = """
+            Chose action:\s
+            1. Label\s
+            2. Post:
+            3. Author\s
+            4. Exit""";
 
     private final String line = "****************************************";
 

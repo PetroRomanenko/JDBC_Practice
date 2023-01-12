@@ -9,28 +9,28 @@ import java.util.List;
 import java.util.Scanner;
 
 public class WriterView {
-    private Scanner scanner = new Scanner(System.in);
-    private WriterController controller = new WriterController();
+    private final Scanner SCANNER = new Scanner(System.in);
+    private final WriterController CONTROLLER = new WriterController();
 
-    private final String CRUDMassage = "Chose category in Writer: \n" +
-            "1.Create \n" +
-            "2.Show all \n" +
-            "3.Show by ID \n" +
-            "4.Update \n" +
-            "5.Delete \n" +
-            "6.Exit to previous menu";
-    private final String line = "****************************************";
+    private final String CRUDMassage = """
+            Chose category in Writer:\s
+            1.Create\s
+            2.Show all\s
+            3.Show by ID\s
+            4.Update\s
+            5.Delete\s
+            6.Exit to previous menu""";
 
     public void createWriter() {
 
         System.out.println("Enter writer First Name: ");
-        String firstName = scanner.nextLine();
+        String firstName = SCANNER.nextLine();
 
         System.out.println("Enter writer Last Name: ");
-        String lastName = scanner.nextLine();
+        String lastName = SCANNER.nextLine();
 
         List<Post> posts = new ArrayList<>();
-        Writer cratedWriter = controller.saveWriter(firstName, lastName, posts);
+        Writer cratedWriter = CONTROLLER.saveWriter(firstName, lastName, posts);
         printWriter(cratedWriter, "Created writer: ");
 
     }
@@ -38,40 +38,40 @@ public class WriterView {
     public void findWriterById() {
 
         System.out.println("Enter ID of desired Writer: ");
-        Integer lookedId = scanner.nextInt();
-        scanner.skip("\n");
+        Integer lookedId = SCANNER.nextInt();
+        SCANNER.skip("\n");
 
         checkIfNoSuchWriterInDB(lookedId);
 
-        Writer foundWriter = controller.findWriterById(lookedId);
+        Writer foundWriter = CONTROLLER.findWriterById(lookedId);
         printWriter(foundWriter, "Desired Writer: ");
 
     }
 
     public void showAllWriter() {
         System.out.println("All Writers: ");
-        printWriterList(controller.getAllWriters());
+        printWriterList(CONTROLLER.getAllWriters());
     }
 
     public void updateWriter() {
         System.out.println("Enter Writer id: ");
-        Integer updatedWriterId = scanner.nextInt();
-        scanner.skip("\n");
+        Integer updatedWriterId = SCANNER.nextInt();
+        SCANNER.skip("\n");
 
         System.out.println("Enter new writer First Name: ");
-        String updatedFirstName = scanner.nextLine();
+        String updatedFirstName = SCANNER.nextLine();
 
         System.out.println("Enter new writer Last Name: ");
-        String updatedLastName = scanner.nextLine();
+        String updatedLastName = SCANNER.nextLine();
 
         System.out.println("Enter number of post written by writer ");
-        Integer writtenPostID = scanner.nextInt();
+        Integer writtenPostID = SCANNER.nextInt();
 
         checkIfNoSuchWriterInDB(updatedWriterId);
 
         Writer updatedWriter = new Writer( updatedFirstName, updatedLastName);
         updatedWriter.setId(updatedWriterId);
-        var updatedRetunedWriter = controller.update(updatedWriter, writtenPostID);
+        var updatedRetunedWriter = CONTROLLER.update(updatedWriter, writtenPostID);
 
         printWriter(updatedRetunedWriter, "Updated Writer: ");
 
@@ -82,7 +82,7 @@ public class WriterView {
     }
 
     private void checkIfNoSuchWriterInDB(Integer searchedID) {
-        Writer writer = controller.findWriterById(searchedID);
+        Writer writer = CONTROLLER.findWriterById(searchedID);
 
         if (writer==null){
             System.out.println("NO such writer choose again");
@@ -92,11 +92,11 @@ public class WriterView {
 
     public void deleteWriterById() {
         System.out.println("Enter Writer Id: ");
-        Integer deletedWriterID = scanner.nextInt();
-        scanner.skip("\n");
+        Integer deletedWriterID = SCANNER.nextInt();
+        SCANNER.skip("\n");
         checkIfNoSuchWriterInDB(deletedWriterID);
-        Writer writer = controller.findWriterById(deletedWriterID);
-            controller.deleteWriterById(deletedWriterID);
+        Writer writer = CONTROLLER.findWriterById(deletedWriterID);
+            CONTROLLER.deleteWriterById(deletedWriterID);
 
         printWriter(writer, "Deleted Writer: ");
 
@@ -105,6 +105,7 @@ public class WriterView {
     }
 
     public void showMenuMassage() {
+        String line = "****************************************";
         System.out.println(line);
         System.out.println(CRUDMassage);
         System.out.println(line);
@@ -114,25 +115,13 @@ public class WriterView {
         int chose;
         do {
             showMenuMassage();
-            chose = scanner.nextInt();
+            chose = SCANNER.nextInt();
             switch (chose) {
-                case 1:
-                    createWriter();
-
-                    break;
-                case 2:
-                    showAllWriter();
-                    break;
-                case 3:
-                    findWriterById();
-                    break;
-                case 4:
-                    updateWriter();
-                    break;
-                case 5:
-                    deleteWriterById();
-                    break;
-
+                case 1 -> createWriter();
+                case 2 -> showAllWriter();
+                case 3 -> findWriterById();
+                case 4 -> updateWriter();
+                case 5 -> deleteWriterById();
             }
         } while (chose != 6);
     }

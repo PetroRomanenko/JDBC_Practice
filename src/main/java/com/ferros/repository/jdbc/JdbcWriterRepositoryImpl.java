@@ -1,12 +1,13 @@
 package com.ferros.repository.jdbc;
 
 import com.ferros.model.Post;
-import com.ferros.model.PostStatus;
 import com.ferros.model.Writer;
 import com.ferros.repository.WriterRepository;
 import com.ferros.utils.JdbcUtils;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +15,11 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
 
     private static final String GET_ALL_SQL = """
             SELECT * from writer w
-            LEFT JOIN postwriter pw on w.writer_id = pw.writer_id
+            LEFT JOIN post_writer pw on w.writer_id = pw.writer_id
                                     LEFT JOIN post p on post_id = p.id 
                                       
             """;
-    // LEFT JOIN postwriter pw on w.id = pw.writer_id
+    // LEFT JOIN post_writer pw on w.id = pw.writer_id
     //                     LEFT JOIN post p on post_id = p.id  
     private static final String GET_BY_ID_SQL = GET_ALL_SQL + " WHERE w.writer_id = ?";
 
@@ -36,7 +37,7 @@ public class JdbcWriterRepositoryImpl implements WriterRepository {
             """;
 
     private static final String SAVE_WRITER_OF_THE_POST_SQL = """
-            INSERT INTO postwriter( post_id, writer_id)
+            INSERT INTO post_writer( post_id, writer_id)
                                 VALUES (?,?);
             """;
 

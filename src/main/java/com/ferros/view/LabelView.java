@@ -5,7 +5,6 @@ import com.ferros.model.Label;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.SortedMap;
 
 public class LabelView  {
 
@@ -14,13 +13,14 @@ public class LabelView  {
 
 
 
-    private final String CRUDMassage = "Chose action in Label: \n" +
-            "1.Create \n" +
-            "2.Show all \n" +
-            "3.Show by ID \n" +
-            "4.Update \n" +
-            "5.Delete \n" +
-            "6.Exit to previous menu";
+    private final String CRUDMassage = """
+            Chose action in Label:\s
+            1.Create\s
+            2.Show all\s
+            3.Show by ID\s
+            4.Update\s
+            5.Delete\s
+            6.Exit to previous menu""";
     private final String line = "****************************************";
 
     public void createLabel() {
@@ -58,7 +58,7 @@ public class LabelView  {
         String updatedLabelName = scanner.nextLine();
 
         Label updatedLabel = new Label(updatedLabelID, updatedLabelName);
-       printLabel(controller.update(updatedLabel)," Updated message"); ;
+       printLabel(controller.update(updatedLabel)," Updated message");
 
     }
 
@@ -83,23 +83,11 @@ public class LabelView  {
             showMenuMassage();
             chose = scanner.nextInt();
             switch (chose) {
-                case 1:
-                    createLabel();
-
-                    break;
-                case 2:
-                    showAllLabels();
-                    break;
-                case 3:
-                    findLabelById();
-                    break;
-                case 4:
-                    updateLabel();
-                    break;
-                case 5:
-                    deleteLabelByID();
-                    break;
-
+                case 1 -> createLabel();
+                case 2 -> showAllLabels();
+                case 3 -> findLabelById();
+                case 4 -> updateLabel();
+                case 5 -> deleteLabelByID();
             }
         } while (chose != 6);
     }
