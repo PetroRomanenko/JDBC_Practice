@@ -1,0 +1,1 @@
+ALTER TABLE label RENAME COLUMN id to label_id

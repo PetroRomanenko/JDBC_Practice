@@ -1,4 +1,4 @@
-create table writer
+create table  IF NOT EXISTS writer
 (
     writer_id serial  not null
         primary key,

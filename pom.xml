@@ -11,13 +11,13 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <postgres.version>42.5.0</postgres.version>
-        <gson.version>2.10</gson.version>
-        <liquibase.version>4.17.2</liquibase.version>
+        <postgres.version>42.5.1</postgres.version>
+        <gson.version>2.10.1</gson.version>
+        <liquibase.version>4.18.0</liquibase.version>
         <junit.version>4.13.2</junit.version>
-        <junit.jupiter.version>5.8.1</junit.jupiter.version>
-        <mockito.version>4.7.0</mockito.version>
-        <mockito.jupiter.version>2.23.0</mockito.jupiter.version>
+        <junit.jupiter.version>5.9.2</junit.jupiter.version>
+        <mockito.version>4.11.0</mockito.version>
+        <mockito.jupiter.version>4.11.0</mockito.jupiter.version>
 
     </properties>
     <dependencies>
@@ -70,14 +70,22 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>3.6.3</version>
                 <configuration>
-                    <propertyFile>${project.basedir}/src/main/resources/liquibase.properties</propertyFile>
+                    <propertyFile>src/main/resources/liquibase.properties</propertyFile>
                 </configuration>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>process-resources</phase>-->
+<!--                        <configuration>-->
+<!--                            <propertyFile>src/main/resources/liquibase.properties</propertyFile>-->
+<!--                        </configuration>-->
+<!--                        <goals>-->
+<!--                            <goal>update</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
         </plugins>
     </build>
-
-
-
 
 
 </project>

@@ -1,4 +1,4 @@
-create table label
+create  table  IF NOT EXISTS label
 (
     id_label    serial
         primary key,

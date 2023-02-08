@@ -1,4 +1,4 @@
-create table label_post
+create table  IF NOT EXISTS label_post
 (
     post_id  integer not null
         constraint fk_post

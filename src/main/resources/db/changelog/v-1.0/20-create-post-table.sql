@@ -1,4 +1,4 @@
-create table post
+create table  IF NOT EXISTS post
 (
     id          serial
         primary key,
